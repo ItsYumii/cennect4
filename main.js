@@ -1,9 +1,8 @@
 import { emptyVector, clamp } from "./helpers.js";
 import { Mouse, Keyboard } from "./input.js";
 import { Cell, Empty, Wall } from "./cells.js";
-const can = document.getElementById("canvas");
-const c = can.getContext("2d");
-let mouse = new Mouse(), keyboard = new Keyboard(), mapPos = emptyVector.copy(), zoom = 1.0;
+const can = document.getElementById("canvas"), c = can.getContext("2d"), canvasResizeBuffer = 50;
+let mouse = new Mouse(), keyboard = new Keyboard(), mapPos = emptyVector.copy(), zoom = 1.0, canvasResizeCount = 1;
 new Empty(1, 0);
 new Empty(-2, 0);
 new Empty(1, 1);
@@ -57,5 +56,20 @@ function resetScreen() {
     c.fillStyle = "#151515";
     c.fillRect(0, 0, can.width, can.height);
 }
-setInterval(loop, 1);
+function load() {
+    resizeCanvas();
+    window.addEventListener("resize", () => {
+        setTimeout(resizeCanvas, canvasResizeBuffer);
+        canvasResizeCount++;
+    });
+    setInterval(loop, 1);
+}
+function resizeCanvas() {
+    canvasResizeCount--;
+    if (canvasResizeCount == 0) {
+        can.width = window.innerWidth;
+        can.height = window.innerHeight;
+    }
+}
+window.addEventListener("load", load);
 //# sourceMappingURL=main.js.map
