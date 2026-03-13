@@ -28,7 +28,13 @@ function loop() {
     keyboard.update();
 }
 function updateGrid() {
+    const oldZoom = zoom;
     zoom = clamp(0.5, zoom - mouse.scroll / 1000, 2);
+    if (zoom !== oldZoom) {
+        const scale = zoom / oldZoom;
+        mapPos.x = mouse.pos.x - (mouse.pos.x - mapPos.x) * scale;
+        mapPos.y = mouse.pos.y - (mouse.pos.y - mapPos.y) * scale;
+    }
     if (mouse.isDown(2))
         mapPos.add(mouse.shift);
 }
