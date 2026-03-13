@@ -163,11 +163,18 @@ export class Wall extends Cell {
         ctx.lineWidth = cellSize / 20;
         this.drawOutlines(cellSize, ctx, mapPos, Wall);
     }
+    placeholderDraw(cellSize, ctx, mapPos) {
+        ctx.strokeStyle = "#252525";
+        ctx.lineWidth = cellSize / 20;
+        ctx.beginPath();
+        ctx.roundRect(this.pos.x * cellSize + mapPos.x, this.pos.y * cellSize + mapPos.y, cellSize, cellSize, [cellSize / 10, cellSize / 10, cellSize / 10, cellSize / 10]);
+    }
 }
 export class Empty extends Cell {
-    constructor(x, y) {
+    constructor(x, y, register = true) {
         super(x, y);
-        Cell.add(x, y, this);
+        if (register)
+            Cell.add(x, y, this);
     }
     draw(cellSize, ctx, mapPos) {
         ctx.lineWidth = cellSize / 20;
@@ -193,6 +200,12 @@ export class Empty extends Cell {
                 ctx.stroke();
             }
         }
+    }
+    placeholderDraw(cellSize, ctx, mapPos) {
+        ctx.fillStyle = "#191919";
+        ctx.beginPath();
+        ctx.roundRect(this.pos.x * cellSize + mapPos.x, this.pos.y * cellSize + mapPos.y, cellSize, cellSize, [cellSize / 10, cellSize / 10, cellSize / 10, cellSize / 10]);
+        ctx.fill();
     }
 }
 //# sourceMappingURL=cells.js.map

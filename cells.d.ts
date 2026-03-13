@@ -12,13 +12,16 @@ export declare abstract class Cell {
     protected static add(x: number, y: number, cell: Cell): void;
     static drawAllCells(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
     abstract draw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
+    abstract placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
 }
 export declare class Wall extends Cell {
     constructor(x: number, y: number, register?: boolean);
     draw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
+    placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
 }
 export declare class Empty extends Cell {
-    constructor(x: number, y: number);
+    constructor(x: number, y: number, register?: boolean);
     draw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
+    placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
 }
 //# sourceMappingURL=cells.d.ts.map

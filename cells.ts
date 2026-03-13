@@ -183,6 +183,8 @@ export abstract class Cell {
     }
 
     abstract draw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
+
+    abstract placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void;
 }
 
 export class Wall extends Cell {
@@ -198,12 +200,21 @@ export class Wall extends Cell {
 
         this.drawOutlines(cellSize, ctx, mapPos, Wall);
     }
+
+    placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void {
+
+        ctx.strokeStyle = "#252525";
+        ctx.lineWidth = cellSize / 20;
+
+        ctx.beginPath()
+        ctx.roundRect(this.pos.x * cellSize + mapPos.x, this.pos.y * cellSize + mapPos.y, cellSize, cellSize, [cellSize / 10, cellSize / 10, cellSize / 10, cellSize / 10])
+    }
 }
 
 export class Empty extends Cell {
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, register = true) {
         super(x, y);
-        Cell.add(x, y, this)
+        if (register) Cell.add(x, y, this)
     }
 
     draw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2) {
@@ -236,6 +247,15 @@ export class Empty extends Cell {
                 ctx.stroke()
             }
         }
+    }
+
+    placeholderDraw(cellSize: number, ctx: CanvasRenderingContext2D, mapPos: Vec2): void {
+
+        ctx.fillStyle = "#191919";
+
+        ctx.beginPath()
+        ctx.roundRect(this.pos.x * cellSize + mapPos.x, this.pos.y * cellSize + mapPos.y, cellSize, cellSize, [cellSize / 10, cellSize / 10, cellSize / 10, cellSize / 10])
+        ctx.fill()
     }
 }
 
